@@ -26,5 +26,36 @@
         </a-entity>
       </a-entity>
     </a-scene>
+    <style>
+  body { margin: 0; overflow: hidden; }
+
+  video {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    z-index: -3 !important;
+  }
+
+  .a-enter-vr-button {
+    display: none !important;
+  }
+
+  .mindar-ui-overlay {
+    z-index: 1 !important;
+  }
+
+  canvas.a-canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 0 !important;
+  }
+</style>
+
   </body>
 </html>
