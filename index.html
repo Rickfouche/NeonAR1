@@ -2,27 +2,17 @@
 <html>
   <head>
     <title>Neon Doorway AR Portal</title>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
-
-      /* CSS FIX: Ensures the camera video feed displays correctly across devices */
-      video {
-        position: fixed !important; /* Pins video to the viewport */
-        top: 0 !important;          /* Aligns to the very top */
-        left: 0 !important;         /* Aligns to the very left */
-        width: 100vw !important;    /* Makes video fill full viewport width */
-        height: 100vh !important;   /* Makes video fill full viewport height */
-        object-fit: cover !important; /* Ensures video covers the entire area, cropping if aspect ratio differs */
-        z-index: -3 !important;     /* Places the video behind other AR elements and overlays */
-      }
     </style>
   </head>
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;" embedded
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: true;"
+      embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -34,21 +24,20 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
+      <a-text value="Loading AR Scene... Look for Marker!" position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
-      <a-entity mindar-image-target="targetIndex: 0" visible="false">
-        <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-text value="Marker Found! Checking Model..." position="0 0.5 0" color="#00FF00" width="1" align="center"></a-text>
         
-        <a-plane position="0 0 -0.1" width="2" height="2" color="#0000FF" rotation="0 0 0"></a-plane>
+        <a-plane position="0 0 0" width="0.5" height="0.5" color="#FF00FF" rotation="-90 0 0" material="side: double; wireframe: true;"></a-plane>
 
-        <a-box position="0 0 -0.2" color="#FFFF00" width="1.5" height="1.5" depth="1.5"></a-box>
-
-        </a-entity>
+        <a-gltf-model
+          src="#portalModel"
+          position="0 0.1 0"
+          scale="0.2 0.2 0.2"
+          rotation="0 180 0"
+        ></a-gltf-model>
+      </a-entity>
     </a-scene>
-
-    <script>
-      // This script manually sets the visibility of the mindar-image-target entity
-      // based on the 'targetFound' and 'targetLost' events.
-      // This bypasses a potential bug where the MindAR A-Frame component
-      // might not toggle visibility correctly on its own.
-      document.
+  </body>
+</html>
