@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>MindAR Basic Test</title>
+    <title>MindAR Pose Fix Test</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      video {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        z-index: -3 !important;
+      }
+      canvas.a-canvas {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+      }
+    </style>
   </head>
   <body>
     <a-scene
@@ -14,48 +34,38 @@
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: true"
     >
-      <a-assets>
-        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
-      </a-assets>
-
+      <a-light type="ambient" intensity="1.2"></a-light>
+      <a-light type="directional" intensity="1" position="1 2 1"></a-light>
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-tracker>
         <a-entity mindar-image-target="targetIndex: 0">
-          <a-box color="#00FF00" position="0 0 0" scale="0.5 0.5 0.5"></a-box>
+          <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
+            <a-box 
+              position="0 0 0"
+              color="#00FF00"
+              scale="1 1 1"
+              rotation="0 0 0"
+            ></a-box>
+          </a-entity>
         </a-entity>
       </a-entity>
     </a-scene>
-    <style>
-  body { margin: 0; overflow: hidden; }
 
-  video {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    object-fit: cover !important;
-    z-index: -3 !important;
-  }
-
-  .a-enter-vr-button {
-    display: none !important;
-  }
-
-  .mindar-ui-overlay {
-    z-index: 1 !important;
-  }
-
-  canvas.a-canvas {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 0 !important;
-  }
-</style>
-
+    <script>
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        const target = document.querySelector('[mindar-image-target]');
+        if (target) {
+          target.addEventListener('targetFound', () => {
+            console.log('✅ Target found');
+            setTimeout(() => {
+              console.log('Position:', target.object3D.position);
+              console.log('Rotation:', target.object3D.rotation);
+            }, 300);
+          });
+        }
+      });
+    </script>
   </body>
 </html>
+
