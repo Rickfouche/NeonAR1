@@ -1,28 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Neon Doorway AR Portal</title>
-     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
+
+    <!-- ✅ Confirmed Working Script Versions -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/aframe/mindar-image-aframe.prod.js"></script>
+
     <style>
       body { margin: 0; overflow: hidden; }
 
-      /* CSS FIX: Ensures the camera video feed displays correctly across devices */
+      /* ✅ Ensures camera video fills viewport behind AR elements */
       video {
-        position: fixed !important; /* Pins video to the viewport */
-        top: 0 !important;          /* Aligns to the very top */
-        left: 0 !important;         /* Aligns to the very left */
-        width: 100vw !important;    /* Makes video fill full viewport width */
-        height: 100vh !important;   /* Makes video fill full viewport height */
-        object-fit: cover !important; /* Ensures video covers the entire area, cropping if aspect ratio differs */
-        z-index: -3 !important;     /* Places the video behind other AR elements and overlays */
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        z-index: -3 !important;
       }
     </style>
   </head>
+
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;" embedded
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;"
+      embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -34,41 +39,39 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- Optional UI Element -->
       <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
-      <a-entity mindar-image-target="targetIndex: 0" visible="false">
-        <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
-        
-        <a-plane position="0 0 -0.1" width="2" height="2" color="#0000FF" rotation="0 0 0"></a-plane>
-
-        <a-box position="0 0 -0.2" color="#FFFF00" width="1.5" height="1.5" depth="1.5"></a-box>
-
+      <!-- ✅ Correct structure: tracker wraps the image-target -->
+      <a-entity mindar-image-tracker>
+        <a-entity mindar-image-target="targetIndex: 0" visible="false">
+          <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
+          <a-plane position="0 0 -0.1" width="2" height="2" color="#0000FF" rotation="0 0 0"></a-plane>
+          <a-box position="0 0 -0.2" color="#FFFF00" width="1.5" height="1.5" depth="1.5"></a-box>
         </a-entity>
+      </a-entity>
     </a-scene>
 
     <script>
-      // This script manually sets the visibility of the mindar-image-target entity
-      // based on the 'targetFound' and 'targetLost' events.
-      // This bypasses a potential bug where the MindAR A-Frame component
-      // might not toggle visibility correctly on its own.
-      document.querySelector('a-scene').addEventListener('loaded', function() {
+      document.querySelector('a-scene').addEventListener('loaded', function () {
         console.log('>>> CONSOLE: A-Frame Scene Loaded!');
+
         const targetEntity = document.querySelector('a-entity[mindar-image-target]');
 
         if (targetEntity) {
-          targetEntity.addEventListener('targetFound', function() {
+          targetEntity.addEventListener('targetFound', function () {
             console.log('--- targetFound event caught by custom listener ---');
-            targetEntity.setAttribute('visible', true); // Manually set visible to true
-            console.log('Target entity .object3D.position (on found):', targetEntity.object3D.position); // Log position to confirm movement
-            console.log('Target entity .object3D.rotation (on found):', targetEntity.object3D.rotation); // Log rotation to confirm movement
+            targetEntity.setAttribute('visible', true);
+            console.log('Target position:', targetEntity.object3D.position);
+            console.log('Target rotation:', targetEntity.object3D.rotation);
           });
 
-          targetEntity.addEventListener('targetLost', function() {
+          targetEntity.addEventListener('targetLost', function () {
             console.log('--- targetLost event caught by custom listener ---');
-            targetEntity.setAttribute('visible', false); // Manually set visible to false
+            targetEntity.setAttribute('visible', false);
           });
         } else {
-          console.error(">>> CONSOLE: mindar-image-target entity not found after A-Frame scene loaded.");
+          console.error(">>> CONSOLE: mindar-image-target entity not found after scene loaded.");
         }
       });
     </script>
