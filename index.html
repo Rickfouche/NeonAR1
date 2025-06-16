@@ -8,15 +8,10 @@
     <style>
       body { margin: 0; overflow: hidden; }
 
-      /* CSS FIX: Ensures the camera video feed displays correctly across devices */
       video {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        object-fit: cover !important;
-        z-index: -3 !important;
+        position: fixed !important; top: 0 !important; left: 0 !important;
+        width: 100vw !important; height: 100vh !important;
+        object-fit: cover !important; z-index: -3 !important;
       }
     </style>
   </head>
@@ -37,7 +32,7 @@
 
       <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
-      <a-entity mindar-image-target="targetIndex: 0">
+      <a-entity mindar-image-target="targetIndex: 0" visible="false"> 
         <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text> 
         
         <a-plane position="0 0 0" width="1" height="1" color="#0000FF" rotation="-90 0 0"></a-plane>
@@ -46,5 +41,26 @@
 
         </a-entity>
     </a-scene>
+
+    <script>
+      // A-Frame scene loaded event
+      AFRAME.scenes[0].addEventListener('loaded', function() {
+        const targetEntity = document.querySelector('a-entity[mindar-image-target]');
+
+        if (targetEntity) {
+          // Listen for target found event
+          targetEntity.addEventListener('targetFound', function() {
+            console.log('--- targetFound event caught by custom listener ---');
+            targetEntity.setAttribute('visible', true); // Manually set visible to true
+          });
+
+          // Listen for target lost event
+          targetEntity.addEventListener('targetLost', function() {
+            console.log('--- targetLost event caught by custom listener ---');
+            targetEntity.setAttribute('visible', false); // Manually set visible to false
+          });
+        }
+      });
+    </script>
   </body>
 </html>
