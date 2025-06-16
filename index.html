@@ -21,15 +21,22 @@
   rotation="0 0 90"
   material="shader: flat; transparent: true; opacity: 1; emissive: #00ffff; emissiveIntensity: 1">
 </a-plane>
-        <a-gltf-model 
-  src="#portalModel"
-  position="0 0 0.1"
-  scale="0.3 0.3 0.3"
-  rotation="0 0 0"
-  animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-</a-gltf-model>
+       <a-entity position="0 0 0.1" scale="0.3 0.3 0.3" rotation="0 0 0">
+  <a-gltf-model 
+    src="#portalModel"
+    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+  </a-gltf-model>
 
-      </a-entity>
+  <!-- Glow ring under the portal -->
+  <a-ring
+    position="0 0 0"
+    rotation="-90 0 0"
+    radius-inner="0.15"
+    radius-outer="0.25"
+    color="#00ffff"
+    material="shader: flat; opacity: 0.4; transparent: true; emissive: #00ffff; emissiveIntensity: 1">
+  </a-ring>
+</a-entity>
     </a-scene>
   </body>
 </html>
