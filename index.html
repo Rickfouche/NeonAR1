@@ -8,21 +8,21 @@
     <style>
       body { margin: 0; overflow: hidden; }
 
-      /* CSS FIX: Ensures the camera video feed displays correctly across devices */
       video {
-        position: fixed !important; /* Pins video to the viewport */
-        top: 0 !important;          /* Aligns to the very top */
-        left: 0 !important;         /* Aligns to the very left */
-        width: 100vw !important;    /* Makes video fill full viewport width */
-        height: 100vh !important;   /* Makes video fill full viewport height */
-        object-fit: cover !important; /* Ensures video covers the entire area, cropping if aspect ratio differs */
-        z-index: -3 !important;     /* Places the video behind other AR elements and overlays */
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        z-index: -3 !important;
       }
     </style>
   </head>
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;" embedded
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;"
+      embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -34,10 +34,10 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-text value="Loading AR Scene... Look for Marker!" position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
+      <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-text value="Marker Found! Checking Model..." position="0 0.5 0" color="#00FF00" width="1" align="center"></a-text>
+        <a-text value="Marker Tracked! Check Model Position." position="0 0.5 0" color="#00FF00" width="1" align="center"></a-text>
         
         <a-plane position="0 0 0" width="0.5" height="0.5" color="#FF00FF" rotation="-90 0 0" material="side: double; wireframe: true;"></a-plane>
 
