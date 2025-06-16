@@ -3,15 +3,14 @@
   <head>
     <title>Neon Doorway AR Portal</title>
 
-    <!-- ✅ Confirmed Working Script Versions -->
-     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
+    <!-- ✅ LOCKED-IN Script Versions -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image-aframe.prod.js"></script>
 
     <style>
       body { margin: 0; overflow: hidden; }
 
-      /* ✅ Ensures camera video fills viewport behind AR elements */
       video {
         position: fixed !important;
         top: 0 !important;
@@ -39,10 +38,9 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Optional UI Element -->
       <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
-      <!-- ✅ Correct structure: tracker wraps the image-target -->
+      <!-- ✅ Required: tracker wrapper added -->
       <a-entity mindar-image-tracker>
         <a-entity mindar-image-target="targetIndex: 0" visible="false">
           <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
@@ -56,22 +54,22 @@
       document.querySelector('a-scene').addEventListener('loaded', function () {
         console.log('>>> CONSOLE: A-Frame Scene Loaded!');
 
-        const targetEntity = document.querySelector('a-entity[mindar-image-target]');
+        const targetEntity = document.querySelector('[mindar-image-target]');
 
         if (targetEntity) {
           targetEntity.addEventListener('targetFound', function () {
-            console.log('--- targetFound event caught by custom listener ---');
+            console.log('--- targetFound event ---');
             targetEntity.setAttribute('visible', true);
-            console.log('Target position:', targetEntity.object3D.position);
-            console.log('Target rotation:', targetEntity.object3D.rotation);
+            console.log('Position:', targetEntity.object3D.position);
+            console.log('Rotation:', targetEntity.object3D.rotation);
           });
 
           targetEntity.addEventListener('targetLost', function () {
-            console.log('--- targetLost event caught by custom listener ---');
+            console.log('--- targetLost event ---');
             targetEntity.setAttribute('visible', false);
           });
         } else {
-          console.error(">>> CONSOLE: mindar-image-target entity not found after scene loaded.");
+          console.error(">>> ERROR: Target entity not found.");
         }
       });
     </script>
