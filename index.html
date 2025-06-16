@@ -2,14 +2,10 @@
 <html lang="en">
   <head>
     <title>Neon Doorway AR Portal</title>
-
-    <!-- ✅ LOCKED-IN Script Versions -->
-<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
-
       video {
         position: fixed !important;
         top: 0 !important;
@@ -23,75 +19,54 @@
   </head>
 
   <body>
-<a-scene
-  mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true;"
-  embedded
-  color-space="sRGB"
-  renderer="colorManagement: true, physicallyCorrectLights"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: true"
->
-  <!-- Asset preload (safe for future use, not required with direct src) -->
-  <!-- <a-assets>
-    <a-asset-item id="portalModel" src="./model/Portal.glb"></a-asset-item>
-  </a-assets> -->
+    <a-scene
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true;"
+      embedded
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+    >
+      <a-light type="ambient" intensity="1.2"></a-light>
+      <a-light type="directional" intensity="1" position="1 2 1"></a-light>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- Basic lighting to ensure visibility of GLB models -->
-  <a-light type="ambient" intensity="1.2"></a-light>
-  <a-light type="directional" intensity="1" position="1 2 1"></a-light>
+      <a-entity mindar-image-tracker>
+        <a-entity mindar-image-target="targetIndex: 0">
+          <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
+            <a-box 
+              position="0 0 0"
+              color="#FF00FF"
+              scale="1.5 1.5 1.5"
+              rotation="90 0 0"
+            ></a-box>
 
-  <!-- Disable user camera control so MindAR controls it fully -->
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+            <a-gltf-model
+              src="./model/Portal.glb"
+              position="0 0 0"
+              scale="0.5 0.5 0.5"
+              rotation="90 0 0"
+            ></a-gltf-model>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+    </a-scene>
 
-  <!-- MindAR wrapper for all image target anchors -->
-  <a-entity mindar-image-tracker>
-    <!-- Image target index 0 from NDCard.mind -->
-    <a-entity mindar-image-target="targetIndex: 0">
-      <!-- All children below will inherit marker pose (position, rotation, scale) -->
-
-      <!-- Pink debug box for visibility -->
-      <a-box 
-        position="0 0 0"
-        color="#FF00FF"
-        scale="1.5 1.5 1.5"
-        rotation="90 0 0"
-      ></a-box>
-
-      <!-- Direct GLB model loading (no #portalModel indirection) -->
-      <a-gltf-model
-        src="./model/Portal.glb"
-        position="0 0 0"
-        scale="0.5 0.5 0.5"
-        rotation="90 0 0"
-      ></a-gltf-model>
-
-    </a-entity>
-  </a-entity>
-</a-scene>
-
-
-<script>
+    <script>
       document.querySelector('a-scene').addEventListener('loaded', function () {
-        console.log('>>> CONSOLE: A-Frame Scene Loaded!');
-
         const targetEntity = document.querySelector('[mindar-image-target]');
-
         if (targetEntity) {
           targetEntity.addEventListener('targetFound', function () {
             console.log('--- targetFound event ---');
-            targetEntity.setAttribute('visible', true);
             console.log('Position:', targetEntity.object3D.position);
             console.log('Rotation:', targetEntity.object3D.rotation);
           });
-
           targetEntity.addEventListener('targetLost', function () {
             console.log('--- targetLost event ---');
-            targetEntity.setAttribute('visible', false);
           });
-        } else {
-          console.error(">>> ERROR: Target entity not found.");
         }
       });
     </script>
   </body>
 </html>
+
