@@ -21,7 +21,11 @@
   rotation="0 0 90"
   material="shader: flat; transparent: true; opacity: 1; emissive: #00ffff; emissiveIntensity: 1">
 </a-plane>
-       <a-entity position="0 0 0.1" scale="0.3 0.3 0.3" rotation="0 0 0">
+  position="0 0 0.1" 
+  scale="0.3 0.3 0.3" 
+  rotation="0 0 0" 
+  class="clickable"
+  event-set__enter="_event: click; _target: window; _value: https://neondoorway.com">
   <a-gltf-model 
     src="#portalModel"
     animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
