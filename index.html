@@ -23,38 +23,46 @@
   </head>
 
   <body>
-    <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;"
-      embedded
-      color-space="sRGB"
-      renderer="colorManagement: true, physicallyCorrectLights"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: true"
-    >
-      <a-assets>
-        <a-asset-item id="portalModel" src="./model/Portal.glb"></a-asset-item>
-      </a-assets>
+   <a-scene
+  mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: true;"
+  embedded
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: true"
+>
+  <a-assets>
+    <a-asset-item id="portalModel" src="./model/Portal.glb"></a-asset-item>
+  </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-light type="ambient" intensity="1.2"></a-light>
+  <a-light type="directional" intensity="1" position="1 1 1"></a-light>
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
+  <!-- ⚠️ DO NOT give position/rotation to this target entity -->
+  <a-entity mindar-image-tracker>
+    <a-entity mindar-image-target="targetIndex: 0">
+      
+      <!-- ✅ CHILD gets transformed based on real-world pose -->
+      <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
+        <a-box 
+          position="0 0 0"
+          color="#FF00FF"
+          scale="1.5 1.5 1.5"
+          rotation="90 0 0"
+        ></a-box>
 
-      <!-- ✅ Required: tracker wrapper added -->
-      <a-entity mindar-image-tracker>
-       <a-entity mindar-image-target="targetIndex: 0">
-          <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
-          <a-plane position="0 0 -0.1" width="2" height="2" color="#0000FF" rotation="0 0 0"></a-plane>
-          <a-box 
-  position="0 0 -0.5" 
-  color="#FFFF00" 
-  width="1" height="1" depth="1" 
-  scale="1.5 1.5 1.5"
-  rotation="90 0 0"
-></a-box>
-
-        </a-entity>
+        <a-gltf-model
+          src="#portalModel"
+          position="0 0 0"
+          scale="0.5 0.5 0.5"
+          rotation="90 0 0"
+        ></a-gltf-model>
       </a-entity>
-    </a-scene>
+
+    </a-entity>
+  </a-entity>
+</a-scene>
 
     <script>
       document.querySelector('a-scene').addEventListener('loaded', function () {
