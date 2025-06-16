@@ -15,6 +15,15 @@
         width: 100vw;
         height: 100vh;
       }
+      #tap-catcher {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 999;
+        display: none;
+      }
     </style>
   </head>
 
@@ -59,30 +68,30 @@
       </a-scene>
     </div>
 
-    <!-- 🔁 Global click redirect on targetFound -->
+    <!-- ✅ Invisible full-screen click layer -->
+    <div id="tap-catcher"></div>
+
+    <!-- ✅ Fullscreen redirect logic -->
     <script>
       const target = document.querySelector("[mindar-image-target]");
-      let isTargetFound = false;
+      const tapCatcher = document.getElementById("tap-catcher");
 
       target.addEventListener("targetFound", () => {
-        console.log("✅ AR Target Found — Tap anywhere to enter");
-        isTargetFound = true;
+        console.log("✅ AR Target Found — enabling full-screen redirect zone");
+        tapCatcher.style.display = "block";
       });
 
       target.addEventListener("targetLost", () => {
-        console.log("❌ AR Target Lost — Disabled screen tap");
-        isTargetFound = false;
+        console.log("❌ AR Target Lost — disabling full-screen redirect zone");
+        tapCatcher.style.display = "none";
       });
 
-      window.addEventListener("click", () => {
-        if (isTargetFound) {
-          window.location.href = "https://neondoorway.com";
-        }
+      tapCatcher.addEventListener("click", () => {
+        window.location.href = "https://neondoorway.com";
       });
     </script>
   </body>
 </html>
-
 
 
 
