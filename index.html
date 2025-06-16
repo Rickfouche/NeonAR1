@@ -43,8 +43,10 @@
     </a-scene>
 
     <script>
-      // A-Frame scene loaded event
-      AFRAME.scenes[0].addEventListener('loaded', function() {
+      // Wait for the A-Frame scene to fully load
+      document.querySelector('a-scene').addEventListener('loaded', function() {
+        console.log('>>> CONSOLE: A-Frame Scene Loaded!'); // This will now fire reliably
+
         const targetEntity = document.querySelector('a-entity[mindar-image-target]');
 
         if (targetEntity) {
@@ -59,6 +61,8 @@
             console.log('--- targetLost event caught by custom listener ---');
             targetEntity.setAttribute('visible', false); // Manually set visible to false
           });
+        } else {
+          console.error(">>> CONSOLE: mindar-image-target entity not found after A-Frame scene loaded.");
         }
       });
     </script>
