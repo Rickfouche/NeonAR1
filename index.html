@@ -5,35 +5,56 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: https://rickfouche.github.io/NeonAR1/targets/NDCard.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene 
+      mindar-image="imageTargetSrc: https://rickfouche.github.io/NeonAR1/targets/NDCard.mind;" 
+      color-space="sRGB" 
+      renderer="colorManagement: true, physicallyCorrectLights" 
+      vr-mode-ui="enabled: false" 
+      device-orientation-permission-ui="enabled: false">
+
       <a-assets>
         <img id="businessCardImage" src="https://rickfouche.github.io/NeonAR1/png/Business%20Card4.png" />
         <a-asset-item id="portalModel" src="https://rickfouche.github.io/NeonAR1/model/Portal.glb"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
       <a-entity mindar-image-target="targetIndex: 0">
-       <a-plane 
-  src="#businessCardImage"
-  position="0 0 0"
-  height="0.552"
-  width="1"
-  rotation="0 0 90"
-  material="shader: flat; transparent: true; opacity: 1; emissive: #00ffff; emissiveIntensity: 1">
-</a-plane>
-  position="0 0 0.1" 
-  scale="0.3 0.3 0.3" 
-  rotation="0 0 0" 
-  class="clickable"
-  event-set__enter="_event: click; _target: window; _value: https://neondoorway.com">
-  <a-gltf-model 
-    src="#portalModel"
-    animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
-  </a-gltf-model>
+        <!-- Glowing PNG -->
+        <a-plane 
+          src="#businessCardImage"
+          position="0 0 0"
+          height="0.552"
+          width="1"
+          rotation="0 0 90"
+          material="shader: flat; transparent: true; opacity: 1; emissive: #00ffff; emissiveIntensity: 1">
+        </a-plane>
 
+        <!-- Clickable Portal -->
+        <a-entity 
+          position="0 0 0.1" 
+          scale="0.3 0.3 0.3" 
+          rotation="0 0 0" 
+          link-opener>
+          
+          <a-gltf-model 
+            src="#portalModel"
+            animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+          </a-gltf-model>
 
-  </a-ring>
-</a-entity>
+        </a-entity>
+      </a-entity>
     </a-scene>
+
+    <!-- JS to make the model clickable -->
+    <script>
+      AFRAME.registerComponent('link-opener', {
+        init: function () {
+          this.el.addEventListener('click', () => {
+            window.open('https://neondoorway.com', '_blank');
+          });
+        }
+      });
+    </script>
   </body>
 </html>
