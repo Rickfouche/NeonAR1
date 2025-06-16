@@ -23,7 +23,7 @@
   </head>
 
   <body>
-   <a-scene
+<a-scene
   mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: true;"
   embedded
   color-space="sRGB"
@@ -31,38 +31,44 @@
   vr-mode-ui="enabled: false"
   device-orientation-permission-ui="enabled: true"
 >
-  <a-assets>
+  <!-- Asset preload (safe for future use, not required with direct src) -->
+  <!-- <a-assets>
     <a-asset-item id="portalModel" src="./model/Portal.glb"></a-asset-item>
-  </a-assets>
+  </a-assets> -->
 
+  <!-- Basic lighting to ensure visibility of GLB models -->
   <a-light type="ambient" intensity="1.2"></a-light>
-  <a-light type="directional" intensity="1" position="1 1 1"></a-light>
+  <a-light type="directional" intensity="1" position="1 2 1"></a-light>
+
+  <!-- Disable user camera control so MindAR controls it fully -->
   <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <!-- ⚠️ DO NOT give position/rotation to this target entity -->
+  <!-- MindAR wrapper for all image target anchors -->
   <a-entity mindar-image-tracker>
+    <!-- Image target index 0 from NDCard.mind -->
     <a-entity mindar-image-target="targetIndex: 0">
-      
-      <!-- ✅ CHILD gets transformed based on real-world pose -->
-      <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
-        <a-box 
-          position="0 0 0"
-          color="#FF00FF"
-          scale="1.5 1.5 1.5"
-          rotation="90 0 0"
-        ></a-box>
+      <!-- All children below will inherit marker pose (position, rotation, scale) -->
 
-        <a-gltf-model
-          src="#portalModel"
-          position="0 0 0"
-          scale="0.5 0.5 0.5"
-          rotation="90 0 0"
-        ></a-gltf-model>
-      </a-entity>
+      <!-- Pink debug box for visibility -->
+      <a-box 
+        position="0 0 0"
+        color="#FF00FF"
+        scale="1.5 1.5 1.5"
+        rotation="90 0 0"
+      ></a-box>
+
+      <!-- Direct GLB model loading (no #portalModel indirection) -->
+      <a-gltf-model
+        src="./model/Portal.glb"
+        position="0 0 0"
+        scale="0.5 0.5 0.5"
+        rotation="90 0 0"
+      ></a-gltf-model>
 
     </a-entity>
   </a-entity>
 </a-scene>
+
 
 <script>
       document.querySelector('a-scene').addEventListener('loaded', function () {
