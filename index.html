@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>MindAR Pose Fix Test</title>
+    <title>Final Box Test</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
@@ -27,7 +27,7 @@
   </head>
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: true;"
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true;"
       embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
@@ -40,32 +40,14 @@
 
       <a-entity mindar-image-tracker>
         <a-entity mindar-image-target="targetIndex: 0">
-          <a-entity position="0 0 0" rotation="0 0 0" scale="1 1 1">
-            <a-box 
-              position="0 0 0"
-              color="#00FF00"
-              scale="1 1 1"
-              rotation="0 0 0"
-            ></a-box>
+          <a-entity position="0 0 0">
+            <a-box position="0 0 0" color="#00FF00" scale="1 1 1"></a-box>
           </a-entity>
         </a-entity>
       </a-entity>
     </a-scene>
-
-    <script>
-      document.querySelector('a-scene').addEventListener('loaded', () => {
-        const target = document.querySelector('[mindar-image-target]');
-        if (target) {
-          target.addEventListener('targetFound', () => {
-            console.log('✅ Target found');
-            setTimeout(() => {
-              console.log('Position:', target.object3D.position);
-              console.log('Rotation:', target.object3D.rotation);
-            }, 300);
-          });
-        }
-      });
-    </script>
+  </body>
+</html>
   </body>
 </html>
 
