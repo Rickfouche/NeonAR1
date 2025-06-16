@@ -4,25 +4,25 @@
     <title>Neon Doorway AR Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/aframe/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
 
+      /* CSS FIX: Ensures the camera video feed displays correctly across devices */
       video {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        object-fit: cover !important;
-        z-index: -3 !important;
+        position: fixed !important; /* Pins video to the viewport */
+        top: 0 !important;          /* Aligns to the very top */
+        left: 0 !important;         /* Aligns to the very left */
+        width: 100vw !important;    /* Makes video fill full viewport width */
+        height: 100vh !important;   /* Makes video fill full viewport height */
+        object-fit: cover !important; /* Ensures video covers the entire area, cropping if aspect ratio differs */
+        z-index: -3 !important;     /* Places the video behind other AR elements and overlays */
       }
     </style>
   </head>
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;"
-      embedded
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: false;" embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -37,12 +37,13 @@
       <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-text value="MARKER TRACKED!" position="0 1 0" color="#FF0000" width="3" align="center"></a-text> <a-plane position="0 0 0" width="1" height="1" color="#0000FF" rotation="-90 0 0"></a-plane> <a-gltf-model
+        <a-text value="MARKER TRACKED! Check Model Position." position="0 1 0" color="#FF0000" width="3" align="center"></a-text> 
+        
+        <a-plane position="0 0 0" width="1" height="1" color="#0000FF" rotation="-90 0 0"></a-plane>
+
+        <a-gltf-model
           src="#portalModel"
-          position="0 0.1 0"
-          scale="0.2 0.2 0.2"
-          rotation="0 180 0"
-        ></a-gltf-model>
+          position="0 0.1 0"           scale="0.2 0.2 0.2"         rotation="0 180 0"          ></a-gltf-model>
       </a-entity>
     </a-scene>
   </body>
