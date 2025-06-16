@@ -4,14 +4,15 @@
     <title>Neon Doorway AR Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/aframe/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
     </style>
   </head>
   <body>
     <a-scene
-      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: true;" embedded
+      mindar-image="imageTargetSrc: ./targets/NDCard.mind; autoStart: true; showStats: true;"
+      embedded
       color-space="sRGB"
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
@@ -32,8 +33,10 @@
 
         <a-gltf-model
           src="#portalModel"
-          position="0 0.1 0" scale="0.2 0.2 0.2"
-          rotation="0 180 0" ></a-gltf-model>
+          position="0 0.1 0"
+          scale="0.2 0.2 0.2"
+          rotation="0 180 0"
+        ></a-gltf-model>
       </a-entity>
     </a-scene>
   </body>
