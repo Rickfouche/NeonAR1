@@ -115,7 +115,39 @@
         window.location.href = "https://neondoorway.com";
       });
     </script>
-  </body>
+<!-- Link component script -->
+<script>
+  AFRAME.registerComponent('link-opener', {
+    init: function () {
+      this.el.addEventListener('click', () => {
+        console.log('Portal clicked!');
+        window.open('https://neondoorway.com', '_blank');
+      });
+    }
+  });
+</script>
+
+<!-- ✅ Tracking + button logic — ADD THIS at the END -->
+<script>
+  const button = document.getElementById("enter-button");
+  const target = document.querySelector("[mindar-image-target]");
+
+  target.addEventListener("targetFound", () => {
+    console.log("Target found — showing button");
+    button.style.display = "block";
+  });
+
+  target.addEventListener("targetLost", () => {
+    console.log("Target lost — hiding button");
+    button.style.display = "none";
+  });
+
+  button.addEventListener("click", () => {
+    window.location.href = "https://neondoorway.com";
+  });
+</script>
+</body>
 </html>
+
 
 
