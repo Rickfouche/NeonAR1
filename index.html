@@ -65,27 +65,32 @@
 </a-scene>
 
     <script>
-      document.querySelector('a-scene').addEventListener('loaded', function () {
-        console.log('>>> CONSOLE: A-Frame Scene Loaded!');
+  document.querySelector('a-scene').addEventListener('loaded', function () {
+    console.log('>>> ✅ A-Frame Scene Loaded');
 
-        const targetEntity = document.querySelector('[mindar-image-target]');
+    const targetEntity = document.querySelector('[mindar-image-target]');
 
-        if (targetEntity) {
-          targetEntity.addEventListener('targetFound', function () {
-            console.log('--- targetFound event ---');
-            targetEntity.setAttribute('visible', true);
-            console.log('Position:', targetEntity.object3D.position);
-            console.log('Rotation:', targetEntity.object3D.rotation);
-          });
+    if (targetEntity) {
+      targetEntity.addEventListener('targetFound', function () {
+        console.log('%c🎯 targetFound event', 'color: green; font-weight: bold;');
+        targetEntity.setAttribute('visible', true);
 
-          targetEntity.addEventListener('targetLost', function () {
-            console.log('--- targetLost event ---');
-            targetEntity.setAttribute('visible', false);
-          });
-        } else {
-          console.error(">>> ERROR: Target entity not found.");
-        }
+        // Add a short delay to allow transform updates
+        setTimeout(() => {
+          console.log('📌 Delayed Position:', targetEntity.object3D.position);
+          console.log('📌 Delayed Rotation:', targetEntity.object3D.rotation);
+        }, 200);
       });
-    </script>
+
+      targetEntity.addEventListener('targetLost', function () {
+        console.log('%c💨 targetLost event', 'color: red; font-weight: bold;');
+        targetEntity.setAttribute('visible', false);
+      });
+    } else {
+      console.error('❌ ERROR: [mindar-image-target] entity not found.');
+    }
+  });
+</script>
+
   </body>
 </html>
