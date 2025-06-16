@@ -2,11 +2,12 @@
 <html>
   <head>
     <title>Neon Doorway AR Portal</title>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/mindar-image.prod.js"></script> 
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.5/dist/aframe/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.0/dist/aframe/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
+
       video {
         position: fixed !important; top: 0 !important; left: 0 !important;
         width: 100vw !important; height: 100vh !important;
@@ -25,8 +26,8 @@
       </a-assets>
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
       <a-text value="Scanning for Marker..." position="0 0 -2" color="#FFF" width="4" align="center"></a-text>
-      <a-entity mindar-image-target="targetIndex: 0" visible="false"> 
-        <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text> 
+      <a-entity mindar-image-target="targetIndex: 0" visible="false">
+        <a-text value="MARKER TRACKED! Testing Box." position="0 1 0" color="#FF0000" width="3" align="center"></a-text>
         <a-plane position="0 0 0" width="1" height="1" color="#0000FF" rotation="-90 0 0"></a-plane>
         <a-box position="0 0.5 0" color="#FFFF00" width="1" height="1" depth="1"></a-box>
       </a-entity>
@@ -40,6 +41,8 @@
           targetEntity.addEventListener('targetFound', function() {
             console.log('--- targetFound event caught by custom listener ---');
             targetEntity.setAttribute('visible', true);
+            console.log('Target entity .object3D.position:', targetEntity.object3D.position);
+            console.log('Target entity .object3D.rotation:', targetEntity.object3D.rotation);
           });
           targetEntity.addEventListener('targetLost', function() {
             console.log('--- targetLost event caught by custom listener ---');
