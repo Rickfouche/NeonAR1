@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Final Box Test</title>
+    <title>NO MORE INVISIBLE OBJECTS TEST</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
-      video {
+      video, canvas.a-canvas {
         position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
+        top: 0; left: 0;
         width: 100vw !important;
         height: 100vh !important;
         object-fit: cover !important;
         z-index: -3 !important;
-      }
-      canvas.a-canvas {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100vw !important;
-        height: 100vh !important;
-        z-index: 0 !important;
       }
     </style>
   </head>
@@ -34,20 +25,39 @@
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: true"
     >
-      <a-light type="ambient" intensity="1.2"></a-light>
-      <a-light type="directional" intensity="1" position="1 2 1"></a-light>
+      <a-light type="ambient" intensity="2.0"></a-light>
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-tracker>
-        <a-entity mindar-image-target="targetIndex: 0">
-          <a-entity position="0 0 0">
-            <a-box position="0 0 0" color="#00FF00" scale="1 1 1"></a-box>
-          </a-entity>
+        <a-entity mindar-image-target="targetIndex: 0" id="targetAnchor">
+          <a-box
+            id="hugeBox"
+            position="0 0 0"
+            scale="5 5 5"
+            color="#00FF00"
+          ></a-box>
         </a-entity>
       </a-entity>
     </a-scene>
-  </body>
-</html>
+
+    <script>
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        console.log("✅ Scene loaded");
+
+        const anchor = document.querySelector("#targetAnchor");
+        const cube = document.querySelector("#hugeBox");
+
+        anchor.addEventListener("targetFound", () => {
+          console.log("🟢 TARGET FOUND - FORCING BOX VISIBLE");
+          cube.setAttribute("visible", true);
+        });
+
+        anchor.addEventListener("targetLost", () => {
+          console.log("🔴 TARGET LOST - Hiding box");
+          cube.setAttribute("visible", false);
+        });
+      });
+    </script>
   </body>
 </html>
 
